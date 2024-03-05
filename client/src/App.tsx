@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import './App.css';
+import { Button } from './components/ui/button';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<p>Hello</p>} />
+        <Route path='/' element={<Button>Submit</Button>} />
       </Routes>
     </BrowserRouter>
   );
