@@ -1,11 +1,13 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Button } from './components/ui/button';
+import { Home, Layout } from './pages';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Button>Submit</Button>} />
+        <Route path='/' element={<Layout user={true} />}>
+          <Route index element={<Home />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
