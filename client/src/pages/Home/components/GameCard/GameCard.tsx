@@ -6,17 +6,17 @@ import {
   CardTitle,
   buttonVariants,
 } from '@/components/ui';
+import { GameContext } from '@/contexts/gameContext';
+import { Game } from '@/pages/Game/Game';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 interface GameCardProps {
-  game: {
-    id: number;
-    name: string;
-    imageSrc: string;
-  };
+  game: Game;
 }
 
 const GameCard = ({ game }: GameCardProps) => {
+  const { setGame } = useContext(GameContext);
   return (
     <Card className='w-full md:w-[25%] flex flex-col content-center items-center'>
       <CardHeader>
@@ -35,6 +35,7 @@ const GameCard = ({ game }: GameCardProps) => {
           className={`${buttonVariants({
             variant: 'secondary',
           })} md:${buttonVariants({ size: 'sm' })}`}
+          onClick={() => setGame(game)}
         >
           Start
         </Link>
@@ -42,7 +43,7 @@ const GameCard = ({ game }: GameCardProps) => {
           to={`/game/${game.id}/leaderboard`}
           className={`${buttonVariants({ variant: 'card' })} flex gap-2`}
         >
-          <img src='src/assets/leaderboard.svg' alt='Leaderboards' />
+          <img src='assets/leaderboard.svg' alt='Leaderboards' />
           Leaderboard
         </Link>
       </CardFooter>
