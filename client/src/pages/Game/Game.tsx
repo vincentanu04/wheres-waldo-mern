@@ -1,11 +1,17 @@
 import { GameContext } from '@/contexts/gameContext';
-import { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+export type Target = {
+  name: string;
+  src: string;
+};
 
 export type Game = {
   id: number;
   name: string;
   imageSrc: string;
+  targets: Target[];
 };
 
 const Game = () => {
@@ -18,9 +24,13 @@ const Game = () => {
     }
   }, [game, navigate]);
 
+  const handleClick = (e: React.MouseEvent) => {
+    console.log(e);
+  };
+
   return (
-    <div className='w-fit mx-auto'>
-      <img src={game?.imageSrc} alt={game?.name} />
+    <div className='w-fit mx-auto cursor-pointer'>
+      <img src={game?.imageSrc} alt={game?.name} onClick={handleClick} />
     </div>
   );
 };
