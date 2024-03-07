@@ -1,4 +1,4 @@
-import { buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui';
 import { Link, Outlet } from 'react-router-dom';
 
 interface LayoutProps {
@@ -31,7 +31,7 @@ const Layout = ({ user }: LayoutProps) => {
           )}
         </div>
       </nav>
-      <main className='h-full grow py-3 md:py-12 px-3 md:px-20'>
+      <main className='h-full grow py-3 md:py-10 px-3 md:px-20'>
         <Outlet />
       </main>
       <footer className='py-2 text-primary-foreground flex flex-col content-center text-xs border-t border-neutral-900 gap-1'>
