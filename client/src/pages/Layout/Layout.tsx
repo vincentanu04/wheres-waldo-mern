@@ -7,8 +7,8 @@ interface LayoutProps {
 
 const Layout = ({ user }: LayoutProps) => {
   return (
-    <div className='flex flex-col min-h-screen h-full bg-primary '>
-      <nav className='py-3 px-3 md:px-20 flex justify-between border-b border-neutral-900'>
+    <div className='flex flex-col min-h-screen bg-primary'>
+      <nav className='py-3 px-3 md:px-20 flex justify-between border-bborder-neutral-900 sticky top-0'>
         <Link to='/' className='flex items-center gap-1'>
           <img src='src/assets/waldo.svg' alt='Logo' width='40' />
           <h1 className='font-bold text-xl text-primary-foreground'>Waldo?</h1>
@@ -31,10 +31,10 @@ const Layout = ({ user }: LayoutProps) => {
           )}
         </div>
       </nav>
-      <main className='h-full grow py-3 md:py-10 px-3 md:px-20'>
+      <main className='h-full grow py-3 md:py-8 px-6 md:px-20'>
         <Outlet />
       </main>
-      <footer className='py-2 text-primary-foreground flex flex-col content-center text-xs border-t border-neutral-900 gap-1'>
+      <footer className='py-2 text-primary-foreground flex flex-col content-center text-xs border-tborder-neutral-900 gap-1'>
         <p className='self-center'>Created by Vincent Tanuwidjaja.</p>
         <Link
           to='https://github.com/vincentanu04'
