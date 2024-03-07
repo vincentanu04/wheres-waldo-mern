@@ -1,10 +1,10 @@
 import { GameCard } from '../GameCard';
 
 const games = [
-  { id: 1, name: 'VANVAN' },
-  { id: 2, name: 'BUBU' },
+  { id: 1, name: '!!!!' },
+  { id: 2, name: 'BOO' },
   { id: 3, name: 'HAHAH' },
-  { id: 4, name: 'WHAT?' },
+  { id: 4, name: 'WHAT' },
 ];
 
 const GameList = () => {

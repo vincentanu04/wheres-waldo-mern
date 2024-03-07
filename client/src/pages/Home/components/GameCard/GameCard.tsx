@@ -22,12 +22,18 @@ const GameCard = ({ game }: GameCardProps) => {
         <CardTitle>{game.name}</CardTitle>
       </CardHeader>
       <CardContent>GAME {game.id}</CardContent>
-      <CardFooter>
+      <CardFooter className='flex gap-2'>
         <Link
           to={`/game/${game.id}`}
           className={buttonVariants({ variant: 'secondary' })}
         >
           Start
+        </Link>
+        <Link
+          to={`/game/${game.id}/leaderboard`}
+          className={buttonVariants({ variant: 'card', size: 'icon' })}
+        >
+          <img src='src/assets/leaderboard.svg' alt='Leaderboards' />
         </Link>
       </CardFooter>
     </Card>
