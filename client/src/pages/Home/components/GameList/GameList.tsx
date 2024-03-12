@@ -9,7 +9,7 @@ const games: Game[] = [
     targets: [
       { name: 'Waldo', src: '/assets/games/meme/waldo.jpg' },
       { name: 'Elmo', src: '/assets/games/meme/elmo.jpeg' },
-      { name: 'Donkey Kong', src: '/assets/games/meme/donkeykong.jpeg' },
+      { name: 'Mojo Jojo', src: '/assets/games/meme/mojojojo.png' },
     ],
   },
   {

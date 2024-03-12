@@ -55,6 +55,12 @@ const Game = () => {
     }
   };
 
+  const handleSubmit = (name: string) => {
+    console.log(name);
+    console.log(clickCoordinates);
+    setIsClicked(!isClicked);
+  };
+
   return (
     <div className={`w-fit mx-auto cursor-pointer relative`}>
       <img
@@ -62,7 +68,7 @@ const Game = () => {
         src={game?.imageSrc}
         alt={game?.name}
         onClick={handleClick}
-        className='w-full'
+        className='w-full bg-white'
       />
       {isClicked && (
         <>
@@ -71,8 +77,7 @@ const Game = () => {
             game={game as Game}
             clickCoordinates={clickCoordinates}
             dotSize={dotSize}
-            isClicked={isClicked}
-            setIsClicked={setIsClicked}
+            handleSubmit={handleSubmit}
           />
         </>
       )}

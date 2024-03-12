@@ -16,16 +16,14 @@ interface DropdownMenuProps {
     y: number;
   };
   dotSize: number;
-  isClicked: boolean;
-  setIsClicked: (isClicked: boolean) => void;
+  handleSubmit: (name: string) => void;
 }
 
 const DropdownMenu = ({
   game,
   clickCoordinates,
   dotSize,
-  isClicked,
-  setIsClicked,
+  handleSubmit,
 }: DropdownMenuProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -63,10 +61,7 @@ const DropdownMenu = ({
           {game?.targets.map((target) => (
             <Button
               key={target.name}
-              onClick={() => {
-                console.log(target);
-                setIsClicked(!isClicked);
-              }}
+              onClick={() => handleSubmit(target.name)}
               className='flex justify-start cursor-pointer gap-2 rounded-sm bg-card hover:bg-neutral-800 p-1 text-sm'
             >
               <img
