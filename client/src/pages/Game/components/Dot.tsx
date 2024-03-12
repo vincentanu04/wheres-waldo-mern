@@ -11,14 +11,14 @@ const Dot = ({ clickCoordinates, dotSize }: DotProps) => {
     <svg
       style={{
         position: 'absolute',
-        top: `${clickCoordinates.y}px`,
-        left: `${clickCoordinates.x}px`,
+        top: `${clickCoordinates.y}%`,
+        left: `${clickCoordinates.x}%`,
         width: dotSize + 'px',
         height: dotSize + 'px',
       }}
       xmlns='http://www.w3.org/2000/svg'
       viewBox={`-1 -1 ${dotSize + 3} ${dotSize + 3}`}
-      className={`z-50 animate-spin spin hover:cursor-default`}
+      className={`animate-spin spin hover:cursor-default`}
     >
       <circle
         cx={dotSize / 2}
