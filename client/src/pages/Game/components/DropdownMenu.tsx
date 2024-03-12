@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardContent,
   CardHeader,
@@ -35,7 +36,6 @@ const DropdownMenu = ({
       const windowHeight = window.innerHeight - 56; // 56, hardcoded footer height
 
       if (rect.right > windowWidth) {
-        console.log('overflow');
         dropdownRef.current.style.left = `calc(${clickCoordinates.x}% - ${rect.width}px + ${dotSize}px)`;
       }
 
@@ -55,29 +55,27 @@ const DropdownMenu = ({
       className='absolute cursor-default'
     >
       <CardHeader className='px-3 py-2'>
-        <CardTitle className='text-nowrap text-lg'>Choose a target!</CardTitle>
+        <CardTitle className='text-nowrap text-md'>Choose a target!</CardTitle>
       </CardHeader>
       <Separator />
       <CardContent className='pl-3 pr-4 py-3'>
         <ul className='flex flex-col'>
           {game?.targets.map((target) => (
-            <li
+            <Button
               key={target.name}
               onClick={() => {
                 console.log(target);
                 setIsClicked(!isClicked);
               }}
-              className='flex cursor-pointer items-center gap-2 rounded-sm hover:bg-neutral-800 p-1 text-sm'
+              className='flex justify-start cursor-pointer gap-2 rounded-sm bg-card hover:bg-neutral-800 p-1 text-sm'
             >
-              {
-                <img
-                  src={target.src}
-                  width={30}
-                  className='max-h-[30px] object-cover rounded-sm'
-                />
-              }
+              <img
+                src={target.src}
+                width={30}
+                className='max-h-[30px] object-cover rounded-sm'
+              />
               <p>{target.name}</p>
-            </li>
+            </Button>
           ))}
         </ul>
       </CardContent>
