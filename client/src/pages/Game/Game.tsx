@@ -1,14 +1,7 @@
 import { GameContext } from '@/contexts/gameContext';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Dot } from './components';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Separator,
-} from '@/components/ui';
+import { Dot, DropdownMenu } from './components';
 
 export type Target = {
   name: string;
@@ -62,10 +55,6 @@ const Game = () => {
     }
   };
 
-  if (isClicked) console.log(clickCoordinates.x, clickCoordinates.y);
-
-  console.log(dotSize);
-
   return (
     <div className={`w-fit mx-auto cursor-pointer relative`}>
       <img
@@ -78,43 +67,13 @@ const Game = () => {
       {isClicked && (
         <>
           <Dot clickCoordinates={clickCoordinates} dotSize={dotSize} />
-          <Card
-            style={{
-              top: `calc(${clickCoordinates.y}% + ${dotSize}px)`,
-              left: `${clickCoordinates.x}%`,
-            }}
-            className='absolute cursor-default'
-          >
-            <CardHeader className='px-3 py-2'>
-              <CardTitle className='text-nowrap text-base'>
-                Choose a target!
-              </CardTitle>
-            </CardHeader>
-            <Separator />
-            <CardContent className='pl-3 pr-4 py-3'>
-              <ul className='flex flex-col'>
-                {game?.targets.map((target) => (
-                  <li
-                    key={target.name}
-                    onClick={() => {
-                      console.log(target);
-                      setIsClicked(!isClicked);
-                    }}
-                    className='flex cursor-pointer items-center gap-2 rounded-sm hover:bg-neutral-800 p-1 text-sm'
-                  >
-                    {
-                      <img
-                        src={target.src}
-                        width={30}
-                        className='max-h-[30px] object-cover rounded-sm'
-                      />
-                    }
-                    <p>{target.name}</p>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
+          <DropdownMenu
+            game={game as Game}
+            clickCoordinates={clickCoordinates}
+            dotSize={dotSize}
+            isClicked={isClicked}
+            setIsClicked={setIsClicked}
+          />
         </>
       )}
     </div>
