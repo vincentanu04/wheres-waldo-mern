@@ -59,7 +59,7 @@ const DropdownMenu = ({
       </CardHeader>
       <Separator />
       <CardContent className='pl-3 pr-4 py-3'>
-        <ul className='flex flex-col'>
+        <div className='flex flex-col'>
           {game?.targets.map((target) => (
             <Button
               key={target.name}
@@ -77,7 +77,7 @@ const DropdownMenu = ({
               <p>{target.name}</p>
             </Button>
           ))}
-        </ul>
+        </div>
       </CardContent>
     </Card>
   );
