@@ -1,7 +1,7 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import gameRouter from './routes/games.router';
+import gameRouter from './routes/games.route';
 
 const app: Express = express();
 dotenv.config();
