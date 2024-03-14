@@ -2,6 +2,8 @@ import { GameContext } from '@/contexts/gameContext';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Dot, DropdownMenu } from './components';
+import axios from 'axios';
+import { useToast } from '@/components/ui';
 
 export type Target = {
   name: string;
@@ -15,11 +17,31 @@ export type Game = {
   targets: Target[];
 };
 
+type TargetAPI = {
+  name: string;
+  coordinates: {
+    minX: number;
+    maxX: number;
+    minY: number;
+    maxY: number;
+  };
+};
+
 const Game = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [dotSize, setDotSize] = useState(0);
-  const [clickCoordinates, setClickCoordinates] = useState({ x: 0, y: 0 });
+  const [clickCoordinates, setClickCoordinates] = useState({
+    x: 0,
+    y: 0,
+    clickMinX: 0,
+    clickMaxX: 0,
+    clickMinY: 0,
+    clickMaxY: 0,
+  });
+  const [targets, setTargets] = useState<TargetAPI[]>();
+  const [charactersFound, setCharactersFound] = useState<string[]>([]);
 
+  const { toast } = useToast();
   const { game } = useContext(GameContext);
   const navigate = useNavigate();
   const imageRef = useRef<HTMLImageElement | null>(null);
@@ -29,6 +51,23 @@ const Game = () => {
       navigate('/');
     }
   }, [game, navigate]);
+
+  const getTargetCoordinates = async () => {
+    try {
+      const targets = await axios.get(
+        `http://localhost:3001/api/games/${game?.name}/targets`
+      );
+      setTargets(targets.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getTargetCoordinates();
+  }, []);
+
+  const gameOver = () => {};
 
   const handleClick = (e: React.MouseEvent) => {
     setIsClicked(!isClicked);
@@ -43,21 +82,51 @@ const Game = () => {
     setDotSize(dotSize);
 
     if (rect) {
-      const x =
-        ((e.clientX - rect.left - dotSize / 2) /
-          (imageRef.current?.width || 0)) *
-        100;
-      const y =
-        ((e.clientY - rect.top - dotSize / 2) /
-          (imageRef.current?.height || 0)) *
-        100;
-      setClickCoordinates({ x, y });
+      const x = ((e.clientX - rect.left - dotSize / 2) / imageHeight) * 100;
+      const y = ((e.clientY - rect.top - dotSize / 2) / imageHeight) * 100;
+
+      const dotSizeOffset = (dotSize / 2 / imageHeight) * 100;
+      const clickMinX = x - dotSizeOffset;
+      const clickMaxX = x + dotSizeOffset;
+      const clickMinY = y - dotSizeOffset;
+      const clickMaxY = y + dotSizeOffset;
+
+      setClickCoordinates({ x, y, clickMinX, clickMaxX, clickMinY, clickMaxY });
     }
   };
 
-  const handleSubmit = (name: string) => {
-    console.log(name);
-    console.log(clickCoordinates);
+  const handleSubmit = (targetName: string) => {
+    const targetClicked = targets?.find(
+      (target) => target.name === targetName
+    ) as TargetAPI;
+
+    const {
+      minX: targetMinX,
+      maxX: targetMaxX,
+      minY: targetMinY,
+      maxY: targetMaxY,
+    } = targetClicked.coordinates;
+    const { clickMinX, clickMaxX, clickMinY, clickMaxY } = clickCoordinates;
+
+    const overlapX = targetMaxX > clickMinX && targetMinX < clickMaxX;
+    const overlapY = targetMaxY > clickMinY && targetMinY < clickMaxY;
+
+    if (overlapX && overlapY) {
+      const charactersFoundArr = [...charactersFound, targetName];
+      setCharactersFound(charactersFoundArr);
+      toast({ title: 'Found!', description: `You found ${targetName}!` });
+
+      if (charactersFoundArr.length >= (game?.targets.length || 0)) {
+        gameOver();
+      }
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'Not Found!',
+        description: `You didn't find ${targetName}!`,
+      });
+    }
+
     setIsClicked(!isClicked);
   };
 
@@ -75,6 +144,7 @@ const Game = () => {
           <Dot clickCoordinates={clickCoordinates} dotSize={dotSize} />
           <DropdownMenu
             game={game as Game}
+            charactersFound={charactersFound}
             clickCoordinates={clickCoordinates}
             dotSize={dotSize}
             handleSubmit={handleSubmit}

@@ -11,6 +11,7 @@ import { useEffect, useRef } from 'react';
 
 interface DropdownMenuProps {
   game: Game;
+  charactersFound: string[];
   clickCoordinates: {
     x: number;
     y: number;
@@ -21,6 +22,7 @@ interface DropdownMenuProps {
 
 const DropdownMenu = ({
   game,
+  charactersFound,
   clickCoordinates,
   dotSize,
   handleSubmit,
@@ -63,6 +65,7 @@ const DropdownMenu = ({
               key={target.name}
               onClick={() => handleSubmit(target.name)}
               className='flex justify-start cursor-pointer gap-2 rounded-sm bg-card hover:bg-neutral-800 p-1 text-sm'
+              disabled={charactersFound.includes(target.name)}
             >
               <img
                 src={target.src}

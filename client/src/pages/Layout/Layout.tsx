@@ -1,4 +1,4 @@
-import { buttonVariants } from '@/components/ui';
+import { Toaster, buttonVariants } from '@/components/ui';
 import { GameContext } from '@/contexts/gameContext';
 import { useContext } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
@@ -39,6 +39,7 @@ const Layout = ({ user }: LayoutProps) => {
       </nav>
       <main className='h-full grow'>
         <Outlet />
+        <Toaster />
       </main>
       <footer
         className={`py-2 text-primary-foreground flex flex-col content-center text-xs border-t border-neutral-900 gap-1 bg-primary ${
