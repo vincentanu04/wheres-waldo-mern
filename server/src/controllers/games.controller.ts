@@ -1,14 +1,16 @@
-import express, { Request, Response } from 'express';
+import { Request, Response } from 'express';
 
-const target = (req: Request, res: Response) => {
-  res.json({ id: req.params.id, targetId: req.params.targetId });
+const targets = (req: Request, res: Response) => {
+  const { gameName } = req.params;
+  res.json({ targets: gameName });
 };
 
 const leaderboard = (req: Request, res: Response) => {
-  res.json(`THIS IS GAME ${req.params.id}'S LEADERBOARD`);
+  const { gameName } = req.params;
+  res.json({ gameName });
 };
 
 export default {
-  target,
+  targets,
   leaderboard,
 };
