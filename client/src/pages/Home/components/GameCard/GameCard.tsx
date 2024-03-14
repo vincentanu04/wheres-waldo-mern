@@ -6,7 +6,7 @@ import {
   CardTitle,
   buttonVariants,
 } from '@/components/ui';
-import { GameContext } from '@/contexts/gameContext';
+import { GameContext } from '@/contexts';
 import { Game } from '@/pages/Game/Game';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';

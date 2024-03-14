@@ -1,9 +1,9 @@
-import { GameContext } from '@/contexts/gameContext';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Dot, DropdownMenu } from './components';
 import axios from 'axios';
 import { useToast } from '@/components/ui';
+import { GameContext, NavFooterContext } from '@/contexts';
 
 export type Target = {
   name: string;
@@ -43,6 +43,7 @@ const Game = () => {
 
   const { toast } = useToast();
   const { game } = useContext(GameContext);
+  const { setFooter } = useContext(NavFooterContext);
   const navigate = useNavigate();
   const imageRef = useRef<HTMLImageElement | null>(null);
 
@@ -66,6 +67,28 @@ const Game = () => {
   useEffect(() => {
     getTargetCoordinates();
   }, []);
+
+  useEffect(() => {
+    setFooter(
+      <div className='text-primary-foreground flex items-center justify-center gap-6'>
+        <p className='hidden md:block'>You need to find:</p>
+        {game?.targets.map(
+          ({ name, src }, index) =>
+            !charactersFound.includes(name) && (
+              <div className='flex gap-2 items-center font-bold' key={index}>
+                <img
+                  src={src}
+                  alt={`target ${index + 1}`}
+                  width={40}
+                  className='max-h-10 object-cover'
+                />
+                <p>{name}</p>
+              </div>
+            )
+        )}
+      </div>
+    );
+  }, [charactersFound]);
 
   const gameOver = () => {};
 
@@ -107,6 +130,7 @@ const Game = () => {
       maxY: targetMaxY,
     } = targetClicked.coordinates;
     const { clickMinX, clickMaxX, clickMinY, clickMaxY } = clickCoordinates;
+    console.log(clickCoordinates.x, clickCoordinates.y);
 
     const overlapX = targetMaxX > clickMinX && targetMinX < clickMaxX;
     const overlapY = targetMaxY > clickMinY && targetMinY < clickMaxY;
