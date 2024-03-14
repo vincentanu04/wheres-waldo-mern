@@ -2,11 +2,19 @@ import express, { Express, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import gameRouter from './routes/games.route';
+import mongoose from 'mongoose';
 
 const app: Express = express();
 dotenv.config();
 
 const PORT = process.env.PORT || 3001;
+
+mongoose.set('strictQuery', false);
+
+main().catch((err) => console.log(err));
+async function main() {
+  await mongoose.connect(process.env.MONGODB_URI as string);
+}
 
 app.use(cors());
 app.use(express.json());
