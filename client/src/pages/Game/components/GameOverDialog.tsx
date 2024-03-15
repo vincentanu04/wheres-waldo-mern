@@ -18,6 +18,8 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useContext } from 'react';
+import { GameContext } from '@/contexts';
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -27,6 +29,7 @@ const formSchema = z.object({
 
 const GameOverDialog = () => {
   const navigate = useNavigate();
+  const { game } = useContext(GameContext);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -35,8 +38,11 @@ const GameOverDialog = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    // Add results and time to leaderboard via post request
     console.log(values);
+
+    navigate(`/game/${game?.id}/leaderboard`);
   };
 
   return (

@@ -1,5 +1,5 @@
 import { Game } from '@/pages/Game/Game';
-import { GameCard } from '../GameCard';
+import GameCard from './GameCard';
 
 const games: Game[] = [
   {
