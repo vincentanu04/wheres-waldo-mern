@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Dot, DropdownMenu } from './components';
+import { Dot, DropdownMenu, GameOverDialog } from './components';
 import axios from 'axios';
 import { useToast } from '@/components/ui';
 import { GameContext, NavFooterContext } from '@/contexts';
@@ -40,6 +40,7 @@ const Game = () => {
   });
   const [targets, setTargets] = useState<TargetAPI[]>();
   const [charactersFound, setCharactersFound] = useState<string[]>([]);
+  const [gameOverDialogOn, setGameOverDialogOn] = useState(false);
 
   const { toast } = useToast();
   const { game } = useContext(GameContext);
@@ -90,7 +91,9 @@ const Game = () => {
     );
   }, [charactersFound]);
 
-  const gameOver = () => {};
+  const gameOver = () => {
+    setGameOverDialogOn(true);
+  };
 
   const handleClick = (e: React.MouseEvent) => {
     setIsClicked(!isClicked);
@@ -130,7 +133,6 @@ const Game = () => {
       maxY: targetMaxY,
     } = targetClicked.coordinates;
     const { clickMinX, clickMaxX, clickMinY, clickMaxY } = clickCoordinates;
-    console.log(clickCoordinates.x, clickCoordinates.y);
 
     const overlapX = targetMaxX > clickMinX && targetMinX < clickMaxX;
     const overlapY = targetMaxY > clickMinY && targetMinY < clickMaxY;
@@ -175,6 +177,7 @@ const Game = () => {
           />
         </>
       )}
+      {gameOverDialogOn && <GameOverDialog />}
     </div>
   );
 };

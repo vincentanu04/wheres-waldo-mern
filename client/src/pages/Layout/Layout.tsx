@@ -17,6 +17,7 @@ const Layout = ({ user }: LayoutProps) => {
       {
         <nav className='py-3 px-3 md:px-20 flex justify-between border-b border-neutral-900 sticky top-0 bg-primary z-50'>
           {!nav ? (
+            // Default nav bar
             <>
               <Link to='/' className='flex items-center gap-1'>
                 <img src='/assets/waldo.svg' alt='Logo' width='40' />
@@ -58,6 +59,7 @@ const Layout = ({ user }: LayoutProps) => {
           }`}
         >
           {!footer ? (
+            // Default footer
             <>
               <p className='self-center'>Created by Vincent Tanuwidjaja.</p>
               <Link
