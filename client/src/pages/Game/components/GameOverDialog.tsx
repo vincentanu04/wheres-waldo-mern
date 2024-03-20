@@ -27,7 +27,11 @@ const formSchema = z.object({
   }),
 });
 
-const GameOverDialog = () => {
+interface GameOverDialogProps {
+  time: number;
+}
+
+const GameOverDialog = ({ time }: GameOverDialogProps) => {
   const navigate = useNavigate();
   const { game } = useContext(GameContext);
 
@@ -40,8 +44,8 @@ const GameOverDialog = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     // Add results and time to leaderboard via post request
-    console.log(values);
-
+    console.log(values.username);
+    console.log(time);
     navigate(`/game/${game?.id}/leaderboard`);
   };
 

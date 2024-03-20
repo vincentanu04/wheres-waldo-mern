@@ -44,7 +44,7 @@ const Layout = ({ user }: LayoutProps) => {
               </div>
             </>
           ) : (
-            footer
+            nav
           )}
         </nav>
       }

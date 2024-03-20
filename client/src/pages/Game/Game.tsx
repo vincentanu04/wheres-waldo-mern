@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Dot, DropdownMenu, GameOverDialog } from './components';
+import { Link, useNavigate } from 'react-router-dom';
+import { Dot, DropdownMenu, GameOverDialog, Stopwatch } from './components';
 import axios from 'axios';
-import { useToast } from '@/components/ui';
+import { buttonVariants, useToast } from '@/components/ui';
 import { GameContext, NavFooterContext } from '@/contexts';
 
 export type Target = {
@@ -41,10 +41,12 @@ const Game = () => {
   const [targets, setTargets] = useState<TargetAPI[]>();
   const [charactersFound, setCharactersFound] = useState<string[]>([]);
   const [gameOverDialogOn, setGameOverDialogOn] = useState(false);
+  const [stopwatchRunning, setStopwatchRunning] = useState(true);
+  const [parentTime, setParentTime] = useState(0);
 
   const { toast } = useToast();
   const { game } = useContext(GameContext);
-  const { setFooter } = useContext(NavFooterContext);
+  const { setNav, setFooter } = useContext(NavFooterContext);
   const navigate = useNavigate();
   const imageRef = useRef<HTMLImageElement | null>(null);
 
@@ -67,9 +69,21 @@ const Game = () => {
 
   useEffect(() => {
     getTargetCoordinates();
+    setStopwatchRunning(true);
   }, []);
 
   useEffect(() => {
+    setNav(
+      <>
+        <Stopwatch
+          stopwatchRunning={stopwatchRunning}
+          setParentTime={setParentTime}
+        />
+        <Link className={buttonVariants({ variant: 'secondary' })} to='/'>
+          Back to menu
+        </Link>
+      </>
+    );
     setFooter(
       <div className='text-primary-foreground flex items-center justify-center gap-6'>
         <p className='hidden md:block'>You need to find:</p>
@@ -92,6 +106,7 @@ const Game = () => {
   }, [charactersFound]);
 
   const gameOver = () => {
+    setStopwatchRunning(false);
     setGameOverDialogOn(true);
   };
 
@@ -177,7 +192,7 @@ const Game = () => {
           />
         </>
       )}
-      {gameOverDialogOn && <GameOverDialog />}
+      {gameOverDialogOn && <GameOverDialog time={parentTime} />}
     </div>
   );
 };
