@@ -31,7 +31,7 @@ const GameCard = ({ game }: GameCardProps) => {
       </CardContent>
       <CardFooter className='flex gap-2 flex-wrap items-center justify-center'>
         <Link
-          to={`/game/${game.id}`}
+          to={`/game/${game.name}`}
           className={`${buttonVariants({
             variant: 'secondary',
           })} md:${buttonVariants({ size: 'sm' })}`}
@@ -40,7 +40,7 @@ const GameCard = ({ game }: GameCardProps) => {
           Start
         </Link>
         <Link
-          to={`/game/${game.id}/leaderboard`}
+          to={`/game/${game.name}/leaderboard`}
           className={`${buttonVariants({ variant: 'card' })} flex gap-2`}
         >
           <img src='assets/leaderboard.svg' alt='Leaderboards' />
