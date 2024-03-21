@@ -1,4 +1,12 @@
-import { ScrollArea, Separator } from '@/components/ui';
+import {
+  ScrollArea,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -9,23 +17,25 @@ const Leaderboard = () => {
 
   const getLeaderboardData = async () => {
     // try {
-    const { data: leaderboardData } = await axios.get(
-      `http://localhost:3001/api/games/${gameName}/leaderboard`
-    );
+    // const { data: leaderboardData } = await axios.get(
+    //   `http://localhost:3001/api/games/${gameName}/leaderboard`
+    // );
     setLeaderboardData([
-      'HAHAHA',
-      'HAHAHA',
-      'HAHAHA',
-      'HAHAHA',
-      'HAHAHA',
-      'HAHAHA',
-      'HAHAHA',
-      'HAHAHA',
-      'HAHAHA',
-      'HAHAHA',
-      'HAHAHA',
-      'HAHAHA',
-      'HAHAHA',
+      // { username: 'HELLOOOOOOOOOO Bitch', time: '1 s' },
+      { username: 'Bitch', time: '1 s' },
+      { username: 'Bitch', time: '1 s' },
+      { username: 'Bitch', time: '1 s' },
+      { username: 'Bitch', time: '1 s' },
+      { username: 'Bitch', time: '1 s' },
+      { username: 'Bitch', time: '1 s' },
+      { username: 'Bitch', time: '1 s' },
+      { username: 'Bitch', time: '1 s' },
+      { username: 'Bitch', time: '1 s' },
+      { username: 'Bitch', time: '1 s' },
+      { username: 'Bitch', time: '1 s' },
+      { username: 'Bitch', time: '1 s' },
+      { username: 'Bitch', time: '1 s' },
+      { username: 'Bitch', time: '1 s' },
     ]);
     // } catch (err) {
     // console.log(err);
@@ -38,18 +48,37 @@ const Leaderboard = () => {
 
   return (
     <div className='min-h-full flex items-center justify-center'>
-      <ScrollArea className='text-primary-foreground w-1/2 rounded-md border p-4'>
-        {leaderboardData ? (
-          leaderboardData.map((data) => (
-            <>
-              {data}
-              <Separator className='my-2' />
-            </>
-          ))
-        ) : (
-          <></>
-        )}
-      </ScrollArea>
+      {leaderboardData ? (
+        <div className='rounded-md md:border flex flex-col justify-center items-center mt-8'>
+          <h1 className='text-2xl font-bold md:mx-4 md:mt-6 text-primary-foreground sticky'>
+            Leaderboard: {gameName}
+          </h1>
+          <ScrollArea className='text-primary-foreground md:w-fit py-4 px-4  md:h-80 min-w-full '>
+            <Table className='min-w-full'>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className='text-left'>Rank</TableHead>
+                  <TableHead className='text-left'>Username</TableHead>
+                  <TableHead className='text-right'>Time</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {leaderboardData.map((data, index) => (
+                  <TableRow key={data.username}>
+                    <TableCell className='text-left pl-5 font-bold max-w-[20px]'>
+                      {index + 1}
+                    </TableCell>
+                    <TableCell>{data.username}</TableCell>
+                    <TableCell className='text-right'>{data.time}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </ScrollArea>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

@@ -48,7 +48,7 @@ const Layout = ({ user }: LayoutProps) => {
           )}
         </nav>
       }
-      <main className='h-full grow'>
+      <main className='grow'>
         <Outlet />
         <Toaster />
       </main>
