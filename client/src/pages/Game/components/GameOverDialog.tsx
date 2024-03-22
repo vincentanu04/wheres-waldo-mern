@@ -46,7 +46,7 @@ const GameOverDialog = ({ time }: GameOverDialogProps) => {
     // Add results and time to leaderboard via post request
     console.log(values.username);
     console.log(time);
-    navigate(`/game/${game?.id}/leaderboard`);
+    navigate(`/game/${game?.name}/leaderboard`);
   };
 
   return (

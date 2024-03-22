@@ -7,13 +7,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui';
+import { NavFooterContext } from '@/contexts';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 const Leaderboard = () => {
   const { gameName } = useParams();
   const [leaderboardData, setLeaderboardData] = useState();
+  const { setNav, setFooter } = useContext(NavFooterContext);
 
   const getLeaderboardData = async () => {
     // try {
@@ -44,10 +46,12 @@ const Leaderboard = () => {
 
   useEffect(() => {
     getLeaderboardData();
+    setNav(null);
+    setFooter(null);
   }, []);
 
   return (
-    <div className='min-h-full flex items-center justify-center'>
+    <div className='flex items-center justify-center'>
       {leaderboardData ? (
         <div className='rounded-md md:border flex flex-col justify-center items-center mt-8'>
           <h1 className='text-2xl font-bold md:mx-4 md:mt-6 text-primary-foreground sticky'>
