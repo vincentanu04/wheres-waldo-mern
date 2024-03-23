@@ -10,3 +10,4 @@ export * from './label';
 export * from './input';
 export * from './scroll-area';
 export * from './table';
+export * from './progress';
