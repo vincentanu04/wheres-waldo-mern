@@ -22,23 +22,23 @@ const Leaderboard = () => {
     // const { data: leaderboardData } = await axios.get(
     //   `http://localhost:3001/api/games/${gameName}/leaderboard`
     // );
-    setLeaderboardData([
-      // { username: 'HELLOOOOOOOOOO Bitch', time: '1 s' },
-      { username: 'Bitch', time: '1 s' },
-      { username: 'Bitch', time: '1 s' },
-      { username: 'Bitch', time: '1 s' },
-      { username: 'Bitch', time: '1 s' },
-      { username: 'Bitch', time: '1 s' },
-      { username: 'Bitch', time: '1 s' },
-      { username: 'Bitch', time: '1 s' },
-      { username: 'Bitch', time: '1 s' },
-      { username: 'Bitch', time: '1 s' },
-      { username: 'Bitch', time: '1 s' },
-      { username: 'Bitch', time: '1 s' },
-      { username: 'Bitch', time: '1 s' },
-      { username: 'Bitch', time: '1 s' },
-      { username: 'Bitch', time: '1 s' },
-    ]);
+    // setLeaderboardData([
+    //   // { username: 'HELLOOOOOOOOOO Bitch', time: '1 s' },
+    //   { username: 'Bitch', time: '1 s' },
+    //   { username: 'Bitch', time: '1 s' },
+    //   { username: 'Bitch', time: '1 s' },
+    //   { username: 'Bitch', time: '1 s' },
+    //   { username: 'Bitch', time: '1 s' },
+    //   { username: 'Bitch', time: '1 s' },
+    //   { username: 'Bitch', time: '1 s' },
+    //   { username: 'Bitch', time: '1 s' },
+    //   { username: 'Bitch', time: '1 s' },
+    //   { username: 'Bitch', time: '1 s' },
+    //   { username: 'Bitch', time: '1 s' },
+    //   { username: 'Bitch', time: '1 s' },
+    //   { username: 'Bitch', time: '1 s' },
+    //   { username: 'Bitch', time: '1 s' },
+    // ]);
     // } catch (err) {
     // console.log(err);
     // }
