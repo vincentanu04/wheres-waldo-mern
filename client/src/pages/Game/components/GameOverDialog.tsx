@@ -44,15 +44,18 @@ const GameOverDialog = ({ time }: GameOverDialogProps) => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // Add results and time to leaderboard via post request
-    await axios.post(
-      `http://localhost:3001/api/games/${game?.name}/leaderboard`,
-      {
-        username: values.username,
-        time: time,
-      }
-    );
-    navigate(`/game/${game?.name}/leaderboard`);
+    try {
+      await axios.post(
+        `http://localhost:3001/api/games/${game?.name}/leaderboard`,
+        {
+          username: values.username,
+          time: time,
+        }
+      );
+      navigate(`/game/${game?.name}/leaderboard`);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
