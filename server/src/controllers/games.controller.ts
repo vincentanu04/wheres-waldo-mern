@@ -14,9 +14,13 @@ const targets = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const leaderboard = (req: Request, res: Response) => {
-  const { gameName } = req.params;
-  res.json({ gameName });
+const leaderboard = (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { gameName } = req.params;
+    res.json({ gameName });
+  } catch (err) {
+    next(err);
+  }
 };
 
 export default {
