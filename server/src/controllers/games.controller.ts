@@ -15,13 +15,18 @@ const targets = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const leaderboard = async (req: Request, res: Response, next: NextFunction) => {
+const leaderboard_get = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { gameName } = req.params;
     const [{ data }] = await Leaderboard.find({ gameName: gameName })
       .select('data')
       .exec();
 
+    // ascending order
     data.sort((a, b) => a.time - b.time);
     res.json(data);
   } catch (err) {
@@ -29,7 +34,19 @@ const leaderboard = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const leaderboard_post = async (req: Request, res: Response) => {
+  const { gameName } = req.params;
+  const { username, time } = req.body;
+  const response = await Leaderboard.findOneAndUpdate(
+    { gameName: gameName },
+    { $push: { data: { username, time } } },
+    { new: true }
+  );
+  res.json(response);
+};
+
 export default {
   targets,
-  leaderboard,
+  leaderboard_get,
+  leaderboard_post,
 };
