@@ -34,15 +34,24 @@ const leaderboard_get = async (
   }
 };
 
-const leaderboard_post = async (req: Request, res: Response) => {
-  const { gameName } = req.params;
-  const { username, time } = req.body;
-  const response = await Leaderboard.findOneAndUpdate(
-    { gameName: gameName },
-    { $push: { data: { username, time } } },
-    { new: true }
-  );
-  res.json(response);
+const leaderboard_post = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { gameName } = req.params;
+    const { username, time } = req.body;
+    const response = await Leaderboard.findOneAndUpdate(
+      { gameName: gameName },
+      { $push: { data: { username, time } } },
+      { new: true }
+    );
+
+    res.json(response);
+  } catch (err) {
+    next(err);
+  }
 };
 
 export default {

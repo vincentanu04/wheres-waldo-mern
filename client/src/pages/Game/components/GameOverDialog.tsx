@@ -20,6 +20,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useContext } from 'react';
 import { GameContext } from '@/contexts';
+import axios from 'axios';
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -44,8 +45,13 @@ const GameOverDialog = ({ time }: GameOverDialogProps) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     // Add results and time to leaderboard via post request
-    console.log(values.username);
-    console.log(time);
+    await axios.post(
+      `http://localhost:3001/api/games/${game?.name}/leaderboard`,
+      {
+        username: values.username,
+        time: time,
+      }
+    );
     navigate(`/game/${game?.name}/leaderboard`);
   };
 
