@@ -22,6 +22,7 @@ const leaderboard = async (req: Request, res: Response, next: NextFunction) => {
       .select('data')
       .exec();
 
+    data.sort((a, b) => a.time - b.time);
     res.json(data);
   } catch (err) {
     next(err);
