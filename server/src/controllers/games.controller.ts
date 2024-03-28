@@ -21,6 +21,7 @@ const leaderboard = async (req: Request, res: Response, next: NextFunction) => {
     const [{ data }] = await Leaderboard.find({ gameName: gameName })
       .select('data')
       .exec();
+
     res.json(data);
   } catch (err) {
     next(err);

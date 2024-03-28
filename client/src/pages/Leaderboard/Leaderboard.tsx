@@ -13,36 +13,26 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+type leaderboardDataAPI = {
+  username: string;
+  time: number;
+};
+
 const Leaderboard = () => {
   const { gameName } = useParams();
-  const [leaderboardData, setLeaderboardData] = useState();
+  const [leaderboardData, setLeaderboardData] =
+    useState<leaderboardDataAPI[]>();
   const { setNav, setFooter } = useContext(NavFooterContext);
 
   const getLeaderboardData = async () => {
-    // try {
-    // const { data: leaderboardData } = await axios.get(
-    //   `http://localhost:3001/api/games/${gameName}/leaderboard`
-    // );
-    // setLeaderboardData([
-    //   // { username: 'HELLOOOOOOOOOO Bitch', time: '1 s' },
-    //   { username: 'Bitch', time: '1 s' },
-    //   { username: 'Bitch', time: '1 s' },
-    //   { username: 'Bitch', time: '1 s' },
-    //   { username: 'Bitch', time: '1 s' },
-    //   { username: 'Bitch', time: '1 s' },
-    //   { username: 'Bitch', time: '1 s' },
-    //   { username: 'Bitch', time: '1 s' },
-    //   { username: 'Bitch', time: '1 s' },
-    //   { username: 'Bitch', time: '1 s' },
-    //   { username: 'Bitch', time: '1 s' },
-    //   { username: 'Bitch', time: '1 s' },
-    //   { username: 'Bitch', time: '1 s' },
-    //   { username: 'Bitch', time: '1 s' },
-    //   { username: 'Bitch', time: '1 s' },
-    // ]);
-    // } catch (err) {
-    // console.log(err);
-    // }
+    try {
+      const { data: leaderboardData } = await axios.get(
+        `http://localhost:3001/api/games/${gameName}/leaderboard`
+      );
+      setLeaderboardData(leaderboardData);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
