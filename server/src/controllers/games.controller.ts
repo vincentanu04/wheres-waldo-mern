@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import Game from '../models/game.model';
+import Leaderboard from '../models/leaderboard.model';
 
 const targets = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -14,10 +15,13 @@ const targets = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const leaderboard = (req: Request, res: Response, next: NextFunction) => {
+const leaderboard = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { gameName } = req.params;
-    res.json({ gameName });
+    const [{ data }] = await Leaderboard.find({ gameName: gameName })
+      .select('data')
+      .exec();
+    res.json(data);
   } catch (err) {
     next(err);
   }
