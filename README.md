@@ -8,6 +8,7 @@ Learning goals:
 
 - Frontend and backend integration
 - MERN stack (MongoDB, Express, React.js, Node.js)
+- TypeScript on React and on Node.js
 - Fullstack production deployment
 - REST APIs
 - User authentication using JWT
