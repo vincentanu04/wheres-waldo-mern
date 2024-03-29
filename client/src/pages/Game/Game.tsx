@@ -123,7 +123,7 @@ const Game = () => {
     setDotSize(dotSize);
 
     if (rect) {
-      const x = ((e.clientX - rect.left - dotSize / 2) / imageHeight) * 100;
+      const x = ((e.clientX - rect.left - dotSize / 2) / imageWidth) * 100;
       const y = ((e.clientY - rect.top - dotSize / 2) / imageHeight) * 100;
 
       const dotSizeOffset = (dotSize / 2 / imageHeight) * 100;
