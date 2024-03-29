@@ -80,7 +80,9 @@ const Leaderboard = () => {
                         {index + 1}
                       </TableCell>
                       <TableCell>{data.username}</TableCell>
-                      <TableCell className='text-right'>{data.time}</TableCell>
+                      <TableCell className='text-right'>
+                        {data.time / 100} s
+                      </TableCell>
                     </TableRow>
                   ))
                 ) : (
