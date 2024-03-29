@@ -42,13 +42,22 @@ const leaderboard_post = async (
   try {
     const { gameName } = req.params;
     const { username, time } = req.body;
-    const response = await Leaderboard.findOneAndUpdate(
-      { gameName: gameName },
-      { $push: { data: { username, time } } },
-      { new: true }
+    const leaderboard = await Leaderboard.find({ gameName: gameName });
+    const usernameExists = leaderboard[0].data.some(
+      (entry) => entry.username === username
     );
 
-    res.json(response);
+    if (usernameExists) {
+      throw new Error('Username already exists.');
+    } else {
+      const response = await Leaderboard.findOneAndUpdate(
+        { gameName: gameName },
+        { $push: { data: { username, time } } },
+        { new: true }
+      );
+
+      res.json(response);
+    }
   } catch (err) {
     next(err);
   }

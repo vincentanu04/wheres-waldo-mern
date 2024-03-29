@@ -18,7 +18,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { GameContext } from '@/contexts';
 import axios from 'axios';
 
@@ -35,6 +35,7 @@ interface GameOverDialogProps {
 const GameOverDialog = ({ time }: GameOverDialogProps) => {
   const navigate = useNavigate();
   const { game } = useContext(GameContext);
+  const [formError, setFormError] = useState();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -54,7 +55,8 @@ const GameOverDialog = ({ time }: GameOverDialogProps) => {
       );
       navigate(`/game/${game?.name}/leaderboard`);
     } catch (err) {
-      console.log(err);
+      // @ts-expect-error idk
+      setFormError(err.response.data.message);
     }
   };
 
@@ -78,6 +80,7 @@ const GameOverDialog = ({ time }: GameOverDialogProps) => {
                       <FormControl>
                         <Input placeholder='vincentanu04...' {...field} />
                       </FormControl>
+                      {formError && <p className='text-red-600'>{formError}</p>}
                       <FormDescription>
                         Enter your username to be added to the leaderboard.
                       </FormDescription>
