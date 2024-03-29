@@ -72,8 +72,9 @@ const Leaderboard = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {leaderboardData
-                ? leaderboardData.map((data, index) => (
+              {leaderboardData ? (
+                leaderboardData.length > 0 ? (
+                  leaderboardData.map((data, index) => (
                     <TableRow key={data.username}>
                       <TableCell className='text-left pl-5 font-bold max-w-[20px]'>
                         {index + 1}
@@ -82,7 +83,12 @@ const Leaderboard = () => {
                       <TableCell className='text-right'>{data.time}</TableCell>
                     </TableRow>
                   ))
-                : getLeaderboardSkeleton()}
+                ) : (
+                  <p className='text-center mt-2'>No results found..</p>
+                )
+              ) : (
+                getLeaderboardSkeleton()
+              )}
             </TableBody>
           </Table>
         </ScrollArea>
