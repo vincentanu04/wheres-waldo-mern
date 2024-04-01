@@ -81,7 +81,10 @@ const Leaderboard = () => {
                       </TableCell>
                       <TableCell>{data.username}</TableCell>
                       <TableCell className='text-right'>
-                        {data.time / 100} s
+                        {Math.floor(data.time / 60)
+                          .toString()
+                          .padStart(2, '0')}
+                        :{(data.time % 60).toString().padStart(2, '0')}
                       </TableCell>
                     </TableRow>
                   ))

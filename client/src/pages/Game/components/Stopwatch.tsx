@@ -10,28 +10,27 @@ const Stopwatch = ({ stopwatchRunning, setParentTime }: StopwatchProps) => {
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
     if (stopwatchRunning) {
-      intervalId = setInterval(() => setTime(time + 1), 10);
-      setParentTime(time + 1);
+      intervalId = setInterval(() => {
+        setTime((prevTime) => {
+          const newTime = prevTime + 1;
+          setParentTime(newTime);
+          return newTime;
+        });
+      }, 1000);
     }
     return () => clearInterval(intervalId);
-  }, [time, stopwatchRunning]);
-
-  const hours = Math.floor(time / 360000);
+  }, [stopwatchRunning, setParentTime]);
 
   // Minutes calculation
-  const minutes = Math.floor((time % 360000) / 6000);
+  const minutes = Math.floor(time / 60);
 
-  // Seconds calculation
-  const seconds = Math.floor((time % 6000) / 100);
-
-  // Milliseconds calculation
-  const milliseconds = time % 100;
+  // seconds calculation
+  const seconds = time % 60;
 
   return (
     <p className='text-primary-foreground font-bold self-center'>
-      Time taken: {hours}:{minutes.toString().padStart(2, '0')}:
-      {seconds.toString().padStart(2, '0')}:
-      {milliseconds.toString().padStart(2, '0')}
+      Time taken: {minutes.toString().padStart(2, '0')}:
+      {seconds.toString().padStart(2, '0')}
     </p>
   );
 };

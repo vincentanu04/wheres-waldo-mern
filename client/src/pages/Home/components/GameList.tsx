@@ -16,7 +16,9 @@ const games: Game[] = [
     id: 2,
     name: 'Quantum City',
     imageSrc: '/assets/games/city/city.jpg',
-    targets: [],
+    targets: [
+      { name: 'Brian The Dog', src: '/assets/games/city/brianthedog.jpeg' },
+    ],
   },
   {
     id: 3,

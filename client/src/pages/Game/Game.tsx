@@ -111,6 +111,7 @@ const Game = () => {
   };
 
   const handleClick = (e: React.MouseEvent) => {
+    console.log(parentTime);
     setIsClicked(!isClicked);
 
     const rect = imageRef.current?.getBoundingClientRect();
