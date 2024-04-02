@@ -70,7 +70,7 @@ const DropdownMenu = ({
               <img
                 src={target.src}
                 width={30}
-                className='max-h-[30px] object-cover rounded-sm'
+                className='min-h-[30px] max-h-[30px] object-cover rounded-sm'
               />
               <p>{target.name}</p>
             </Button>
