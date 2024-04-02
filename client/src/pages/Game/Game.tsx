@@ -95,7 +95,7 @@ const Game = () => {
                   src={src}
                   alt={`target ${index + 1}`}
                   width={40}
-                  className='max-h-10 object-cover'
+                  className='min-h-10 max-h-10 object-cover'
                 />
                 <p>{name}</p>
               </div>
