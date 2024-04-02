@@ -43,7 +43,7 @@ const leaderboard_post = async (
     const { gameName } = req.params;
     const { username, time } = req.body;
     const leaderboard = await Leaderboard.find({ gameName: gameName });
-    const usernameExists = leaderboard[0].data.some(
+    const usernameExists = leaderboard[0]?.data.some(
       (entry) => entry.username === username
     );
 
