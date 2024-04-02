@@ -19,6 +19,7 @@ const games: Game[] = [
     targets: [
       { name: 'Brian The Dog', src: '/assets/games/city/brianthedog.jpeg' },
       { name: 'Tom', src: '/assets/games/city/tom.jpeg' },
+      { name: 'Pokeball', src: '/assets/games/city/pokeball.jpeg' },
     ],
   },
   {
