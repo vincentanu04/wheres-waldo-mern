@@ -150,8 +150,6 @@ const Game = () => {
     } = targetClicked.coordinates;
     const { clickMinX, clickMaxX, clickMinY, clickMaxY } = clickCoordinates;
 
-    console.log(targetClicked.coordinates);
-    console.log(clickCoordinates);
     const overlapX = targetMaxX > clickMinX && targetMinX < clickMaxX;
     const overlapY = targetMaxY > clickMinY && targetMinY < clickMaxY;
 
