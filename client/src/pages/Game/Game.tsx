@@ -126,11 +126,12 @@ const Game = () => {
       const x = ((e.clientX - rect.left - dotSize / 2) / imageWidth) * 100;
       const y = ((e.clientY - rect.top - dotSize / 2) / imageHeight) * 100;
 
-      const dotSizeOffset = (dotSize / 2 / imageHeight) * 100;
-      const clickMinX = x - dotSizeOffset;
-      const clickMaxX = x + dotSizeOffset;
-      const clickMinY = y - dotSizeOffset;
-      const clickMaxY = y + dotSizeOffset;
+      const xDotSizeOffset = (dotSize / 2 / imageWidth) * 100;
+      const yDotSizeOffset = (dotSize / 2 / imageHeight) * 100;
+      const clickMinX = x - xDotSizeOffset;
+      const clickMaxX = x + xDotSizeOffset;
+      const clickMinY = y - yDotSizeOffset;
+      const clickMaxY = y + yDotSizeOffset;
 
       setClickCoordinates({ x, y, clickMinX, clickMaxX, clickMinY, clickMaxY });
     }
@@ -149,6 +150,8 @@ const Game = () => {
     } = targetClicked.coordinates;
     const { clickMinX, clickMaxX, clickMinY, clickMaxY } = clickCoordinates;
 
+    console.log(targetClicked.coordinates);
+    console.log(clickCoordinates);
     const overlapX = targetMaxX > clickMinX && targetMinX < clickMaxX;
     const overlapY = targetMaxY > clickMinY && targetMinY < clickMaxY;
 
