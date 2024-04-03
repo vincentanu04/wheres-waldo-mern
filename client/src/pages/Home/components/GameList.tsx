@@ -26,7 +26,11 @@ const games: Game[] = [
     id: 3,
     name: 'Red & Blue',
     imageSrc: '/assets/games/red&blue/red&blue.jpg',
-    targets: [],
+    targets: [
+      { name: 'M&M', src: '/assets/games/red&blue/m&m.jpeg' },
+      { name: 'Mario', src: '/assets/games/red&blue/mario.jpeg' },
+      { name: 'Angry Bird', src: '/assets/games/red&blue/angrybird.jpeg' },
+    ],
   },
 ];
 
