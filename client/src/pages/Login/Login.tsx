@@ -2,7 +2,6 @@ import {
   Button,
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -34,39 +33,44 @@ const Login = () => {
   const onSubmit = () => {};
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
-        <FormField
-          control={form.control}
-          name='username'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className='text-white'>Username</FormLabel>
-              <FormControl>
-                <Input placeholder='tulsa1102..' {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='password'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className='text-white'>Password</FormLabel>
-              <FormControl>
-                <Input {...field} type='password' />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button variant='secondary' type='submit'>
-          Submit
-        </Button>
-      </form>
-    </Form>
+    <div className='flex'>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className='space-y-6 w-full h-full md:w-[25%] my-4 mx-8'
+        >
+          <FormField
+            control={form.control}
+            name='username'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='text-white'>Username</FormLabel>
+                <FormControl>
+                  <Input placeholder='tulsa1102..' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='password'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='text-white'>Password</FormLabel>
+                <FormControl>
+                  <Input {...field} type='password' />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button variant='secondary' type='submit' className='w-full md:w-fit'>
+            Submit
+          </Button>
+        </form>
+      </Form>
+    </div>
   );
 };
 
