@@ -33,11 +33,11 @@ const Login = () => {
   const onSubmit = () => {};
 
   return (
-    <div className='flex'>
+    <div className='py-4 px-4 md:px-20 md:py-8'>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='space-y-6 w-full h-full md:w-[25%] my-4 mx-8'
+          className='space-y-6 w-full h-full md:w-[25%]'
         >
           <FormField
             control={form.control}
@@ -70,6 +70,9 @@ const Login = () => {
           </Button>
         </form>
       </Form>
+      <p className='text-primary-foreground text-center mt-4 md:text-left'>
+        Don't have an account? Click here to sign up!
+      </p>
     </div>
   );
 };
