@@ -10,6 +10,7 @@ import {
 } from '@/components/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 import { z } from 'zod';
 
 const formSchema = z.object({
@@ -30,7 +31,9 @@ const Login = () => {
     },
   });
 
-  const onSubmit = () => {};
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    console.log(values);
+  };
 
   return (
     <div className='py-4 px-4 md:px-20 md:py-8'>
@@ -46,7 +49,7 @@ const Login = () => {
               <FormItem>
                 <FormLabel className='text-white'>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder='tulsa1102..' {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -71,7 +74,11 @@ const Login = () => {
         </form>
       </Form>
       <p className='text-primary-foreground text-center mt-4 md:text-left'>
-        Don't have an account? Click here to sign up!
+        Don't have an account? Click{' '}
+        <Link to='signup' className='text-blue-300 hover:underline'>
+          here
+        </Link>{' '}
+        to sign up!
       </p>
     </div>
   );
