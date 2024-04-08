@@ -9,6 +9,7 @@ import {
   Input,
 } from '@/components/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { z } from 'zod';
@@ -26,6 +27,8 @@ const formSchema = z.object({
 });
 
 const Signup = () => {
+  const [errorMsg, setErrorMsg] = useState('');
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,8 +37,13 @@ const Signup = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      console.log(values);
+      setErrorMsg('Username already exists.');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -46,7 +54,7 @@ const Signup = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='space-y-6 w-full h-full'
+          className='space-y-3 w-full h-full'
         >
           <FormField
             control={form.control}
@@ -74,6 +82,7 @@ const Signup = () => {
               </FormItem>
             )}
           />
+          <p className='text-sm font-medium text-destructive'>{errorMsg}</p>
           <Button variant='secondary' type='submit' className='w-full'>
             Submit
           </Button>
