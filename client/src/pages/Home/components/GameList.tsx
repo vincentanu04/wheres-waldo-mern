@@ -36,7 +36,7 @@ const games: Game[] = [
 
 const GameList = () => {
   return (
-    <div className='flex flex-col md:flex-row gap-6 items-center justify-center flex-wrap'>
+    <div className='flex flex-col md:flex-row gap-6 justify-center flex-wrap'>
       {games.map((game) => (
         <GameCard game={game} key={game.id} />
       ))}

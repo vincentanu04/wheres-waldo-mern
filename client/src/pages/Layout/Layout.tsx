@@ -48,7 +48,7 @@ const Layout = ({ user }: LayoutProps) => {
           )}
         </nav>
       }
-      <main className='grow'>
+      <main className='grow md:flex items-center justify-center'>
         <Outlet />
         <Toaster />
       </main>

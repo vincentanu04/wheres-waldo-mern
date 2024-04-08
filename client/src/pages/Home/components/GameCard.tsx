@@ -18,7 +18,7 @@ interface GameCardProps {
 const GameCard = ({ game }: GameCardProps) => {
   const { setGame } = useContext(GameContext);
   return (
-    <Card className='w-full md:w-[25%] flex flex-col content-center items-center'>
+    <Card className='w-full md:w-auto flex flex-col content-center items-center'>
       <CardHeader>
         <CardTitle className='text-nowrap'>{game.name}</CardTitle>
       </CardHeader>
