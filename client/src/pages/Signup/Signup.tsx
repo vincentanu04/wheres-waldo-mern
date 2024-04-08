@@ -17,9 +17,12 @@ const formSchema = z.object({
   username: z.string().min(1, {
     message: 'Please enter a username.',
   }),
-  password: z.string().min(1, {
-    message: 'Please enter a password.',
-  }),
+  password: z
+    .string()
+    .min(1, {
+      message: 'Please enter a password.',
+    })
+    .min(8, { message: 'Password must be at least 8 characters.' }),
 });
 
 const Signup = () => {
@@ -37,10 +40,13 @@ const Signup = () => {
 
   return (
     <div className='py-4 px-4 md:px-20 md:py-8'>
+      <h1 className='text-primary-foreground font-bold text-4xl mb-6'>
+        Signup
+      </h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='space-y-6 w-full h-full md:w-[25%]'
+          className='space-y-6 w-full h-full'
         >
           <FormField
             control={form.control}
@@ -49,7 +55,7 @@ const Signup = () => {
               <FormItem>
                 <FormLabel className='text-white'>Username</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input className='w-full' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -68,17 +74,17 @@ const Signup = () => {
               </FormItem>
             )}
           />
-          <Button variant='secondary' type='submit' className='w-full md:w-fit'>
+          <Button variant='secondary' type='submit' className='w-full'>
             Submit
           </Button>
         </form>
       </Form>
-      <p className='text-primary-foreground text-center mt-4 md:text-left'>
-        Don't have an account? Click{' '}
-        <Link to='/signup' className='text-blue-300 hover:underline'>
+      <p className='text-primary-foreground text-center mt-4 md:text-left text-sm'>
+        Already have an account? Click{' '}
+        <Link to='/login' className='text-blue-300 hover:underline'>
           here
         </Link>{' '}
-        to sign up!
+        to log in!
       </p>
     </div>
   );

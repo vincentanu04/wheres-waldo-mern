@@ -37,10 +37,11 @@ const Login = () => {
 
   return (
     <div className='py-4 px-4 md:px-20 md:py-8'>
+      <h1 className='text-primary-foreground font-bold text-4xl mb-6'>Login</h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='space-y-6 w-full h-full md:w-[25%]'
+          className='space-y-6 w-full h-full'
         >
           <FormField
             control={form.control}
@@ -68,12 +69,12 @@ const Login = () => {
               </FormItem>
             )}
           />
-          <Button variant='secondary' type='submit' className='w-full md:w-fit'>
+          <Button variant='secondary' type='submit' className='w-full'>
             Submit
           </Button>
         </form>
       </Form>
-      <p className='text-primary-foreground text-center mt-4 md:text-left'>
+      <p className='text-primary-foreground text-center mt-4 md:text-left text-sm'>
         Don't have an account? Click{' '}
         <Link to='/signup' className='text-blue-300 hover:underline'>
           here
