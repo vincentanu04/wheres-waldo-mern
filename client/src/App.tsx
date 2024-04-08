@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Game, Home, Layout, Leaderboard, Login } from './pages';
+import { Game, Home, Layout, Leaderboard, Login, Signup } from './pages';
 import { Game as GameType } from './pages/Game/Game';
 import { ReactNode, useState } from 'react';
 import { GameContext, NavFooterContext } from './contexts';
@@ -22,6 +22,7 @@ function App() {
                 element={<Leaderboard />}
               />
               <Route path='/login' element={<Login />} />
+              <Route path='/signup' element={<Signup />} />
             </Route>
           </Routes>
         </BrowserRouter>
