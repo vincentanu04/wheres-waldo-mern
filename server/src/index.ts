@@ -1,7 +1,7 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import gameRouter from './routes/games.route';
+import { GameRouter, AccountRouter } from './routes';
 import mongoose from 'mongoose';
 
 const app: Express = express();
@@ -19,7 +19,8 @@ async function main() {
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/games', gameRouter);
+app.use('/api/games', GameRouter);
+app.use('/api/account', AccountRouter);
 
 // Error handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
