@@ -34,9 +34,12 @@ const Login = () => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async ({
+    username,
+    password,
+  }: z.infer<typeof formSchema>) => {
     try {
-      console.log(values);
+      console.log(username, password);
       setErrorMsg('Username does not exist.');
     } catch (err) {
       setErrorMsg(err);

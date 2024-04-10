@@ -9,6 +9,7 @@ import {
   Input,
 } from '@/components/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -37,9 +38,16 @@ const Signup = () => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async ({
+    username,
+    password,
+  }: z.infer<typeof formSchema>) => {
     try {
-      console.log(values);
+      console.log(username, password);
+      await axios.post('http://localhost:3001/api/signup', {
+        username,
+        password,
+      });
       setErrorMsg('Username already exists.');
     } catch (err) {
       console.log(err);
