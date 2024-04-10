@@ -8,4 +8,12 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export default { signup };
+const login = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { username, password } = req.body;
+  } catch (err) {
+    next(err);
+  }
+};
+
+export default { signup, login };
