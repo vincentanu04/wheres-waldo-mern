@@ -27,7 +27,7 @@ const Leaderboard = () => {
   const getLeaderboardData = async () => {
     try {
       const { data: leaderboardData } = await axios.get(
-        `http://localhost:3001/api/games/${gameName}/leaderboard`
+        `/api/games/${gameName}/leaderboard`
       );
       setLeaderboardData(leaderboardData);
     } catch (err) {

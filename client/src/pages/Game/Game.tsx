@@ -58,9 +58,7 @@ const Game = () => {
 
   const getTargetCoordinates = async () => {
     try {
-      const targets = await axios.get(
-        `http://localhost:3001/api/games/${game?.name}/targets`
-      );
+      const targets = await axios.get(`/api/games/${game?.name}/targets`);
       setTargets(targets.data);
     } catch (err) {
       console.log(err);
