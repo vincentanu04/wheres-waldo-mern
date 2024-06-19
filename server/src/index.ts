@@ -26,7 +26,7 @@ app.use('/api/account', AccountRouter);
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   const statusCode = err.statusCode || 500;
   console.error(err.message, err.stack);
-  res.status(statusCode).json({ message: err.message });
+  res.status(statusCode).json({ error: err.message });
 
   return;
 });

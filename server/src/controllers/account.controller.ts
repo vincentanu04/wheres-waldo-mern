@@ -1,21 +1,21 @@
 import { Request, Response, NextFunction } from 'express';
 import Account from '../models/account.model';
+const bcrypt = require('bcrypt');
 
 const signup = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username, password } = req.body;
-    console.log('server:', username, password);
-    const existingAccount = await Account.findOne({ username: username });
+    const exists = await Account.findOne({ username: username });
 
-    if (existingAccount) {
-      console.log('ACCOUTN ALREADY EXISTS');
-
-      return;
+    if (exists) {
+      throw Error('Email already in use');
     }
 
-    console.log('ACCOUNT DOES NOT EXIST');
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+    const user = await Account.create({ username, password: hash });
 
-    await Account.create({ username, password });
+    res.status(200).json({ username, user });
   } catch (err) {
     next(err);
   }

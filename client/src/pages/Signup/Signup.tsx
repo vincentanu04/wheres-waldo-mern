@@ -43,10 +43,12 @@ const Signup = () => {
     password,
   }: z.infer<typeof formSchema>) => {
     try {
-      await axios.post('/api/account/signup', {
-        username,
-        password,
-      });
+      console.log(
+        await axios.post('/api/account/signup', {
+          username,
+          password,
+        })
+      );
       setErrorMsg('Username already exists.');
     } catch (err) {
       console.log(err);
