@@ -43,8 +43,7 @@ const Signup = () => {
     password,
   }: z.infer<typeof formSchema>) => {
     try {
-      console.log(username, password);
-      await axios.post('http://localhost:3001/api/signup', {
+      await axios.post('/api/account/signup', {
         username,
         password,
       });
