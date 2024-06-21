@@ -3,12 +3,13 @@ import Account from '../models/account.model';
 const bcrypt = require('bcrypt');
 
 const signup = async (req: Request, res: Response, next: NextFunction) => {
+  const { username, password } = req.body;
+
   try {
-    const { username, password } = req.body;
     const exists = await Account.findOne({ username: username });
 
     if (exists) {
-      throw Error('Email already in use');
+      return res.status(400).json({ error: 'Username already in use' });
     }
 
     const salt = await bcrypt.genSalt(10);
