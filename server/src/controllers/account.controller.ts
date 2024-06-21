@@ -16,7 +16,7 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
   }
 
   try {
-    const exists = await Account.findOne({ username: username });
+    const exists = await Account.findOne({ username });
 
     if (exists) {
       throw new Error('Username already in use.');
@@ -35,8 +35,28 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const login = async (req: Request, res: Response, next: NextFunction) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    throw Error('All fields must be filled.');
+  }
+
   try {
-    const { username, password } = req.body;
+    const user = await Account.findOne({ username });
+
+    if (!user) {
+      throw new Error('Incorrect username.');
+    }
+
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match) {
+      throw new Error('Incorrect password.');
+    }
+
+    const token = createToken(user._id);
+
+    res.status(200).json({ username, token });
   } catch (err) {
     next(err);
   }
