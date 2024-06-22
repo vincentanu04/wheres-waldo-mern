@@ -46,16 +46,12 @@ const GameOverDialog = ({ time }: GameOverDialogProps) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post(
-        `http://localhost:3001/api/games/${game?.name}/leaderboard`,
-        {
-          username: values.username,
-          time: time,
-        }
-      );
+      await axios.post(`/api/games/${game?.name}/leaderboard`, {
+        username: values.username,
+        time: time,
+      });
       navigate(`/game/${game?.name}/leaderboard`);
     } catch (err) {
-      // @ts-expect-error idk
       setFormError(err.response.data.message);
     }
   };

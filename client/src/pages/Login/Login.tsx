@@ -9,6 +9,7 @@ import {
   Input,
 } from '@/components/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -39,10 +40,18 @@ const Login = () => {
     password,
   }: z.infer<typeof formSchema>) => {
     try {
-      console.log(username, password);
-      setErrorMsg('Username does not exist.');
+      const resp = await axios.post('/api/account/login', {
+        username,
+        password,
+      });
+      console.log(resp);
     } catch (err) {
-      setErrorMsg(err);
+      if (err.response && err.response.data && err.response.data.error) {
+        setErrorMsg(err.response.data.error);
+      } else {
+        setErrorMsg('An unexpected error occurred');
+        console.log(err);
+      }
     }
   };
 

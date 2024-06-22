@@ -9,7 +9,7 @@ import {
   Input,
 } from '@/components/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios, { isAxiosError } from 'axios';
+import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -47,13 +47,13 @@ const Signup = () => {
         username,
         password,
       });
-    } catch (err: unknown) {
-      if (isAxiosError(err)) {
-        if (err.response && err.response.data && err.response.data.error) {
-          setErrorMsg(err.response.data.error);
-        } else {
-          setErrorMsg('An unexpected error occurred');
-        }
+      console.log(resp);
+    } catch (err) {
+      if (err.response && err.response.data && err.response.data.error) {
+        setErrorMsg(err.response.data.error);
+      } else {
+        setErrorMsg('An unexpected error occurred');
+        console.log(err);
       }
     }
   };
