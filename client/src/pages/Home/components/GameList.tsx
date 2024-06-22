@@ -1,5 +1,6 @@
 import { Game } from '@/pages/Game/Game';
 import GameCard from './GameCard';
+import React from 'react';
 
 const games: Game[] = [
   {
@@ -34,11 +35,15 @@ const games: Game[] = [
   },
 ];
 
+const MemoizedGameCard = React.memo(({ game }: { game: Game }) => (
+  <GameCard game={game} key={game.id} />
+));
+
 const GameList = () => {
   return (
     <div className='flex flex-col md:flex-row gap-6 justify-center flex-wrap'>
       {games.map((game) => (
-        <GameCard game={game} key={game.id} />
+        <MemoizedGameCard game={game} key={game.id} />
       ))}
     </div>
   );
