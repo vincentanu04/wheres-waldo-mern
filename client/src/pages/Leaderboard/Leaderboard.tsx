@@ -9,8 +9,9 @@ import {
   TableRow,
 } from '@/components/ui';
 import { NavFooterContext } from '@/contexts';
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 type leaderboardDataAPI = {
@@ -20,26 +21,24 @@ type leaderboardDataAPI = {
 
 const Leaderboard = () => {
   const { gameName } = useParams();
-  const [leaderboardData, setLeaderboardData] =
-    useState<leaderboardDataAPI[]>();
   const { setNav, setFooter } = useContext(NavFooterContext);
 
-  const getLeaderboardData = async () => {
-    try {
-      const { data: leaderboardData } = await axios.get(
-        `/api/games/${gameName}/leaderboard`
-      );
-      setLeaderboardData(leaderboardData);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const {
+    isLoading,
+    error,
+    data: leaderboardData,
+  } = useQuery<leaderboardDataAPI[], Error>({
+    queryKey: ['leaderboardData', gameName],
+    queryFn: async () => {
+      const resp = await axios.get(`/api/games/${gameName}/leaderboard`);
+      return resp.data;
+    },
+  });
 
   useEffect(() => {
-    getLeaderboardData();
     setNav(null);
     setFooter(null);
-  }, []);
+  }, [setNav, setFooter]);
 
   const getLeaderboardSkeleton = () =>
     Array.from({ length: 4 }, (_, index) => (
@@ -55,6 +54,14 @@ const Leaderboard = () => {
         </TableCell>
       </TableRow>
     ));
+
+  const getNoResultsFound = () => (
+    <p className='text-center mt-2'>No results found..</p>
+  );
+
+  const getErrorMessage = () => (
+    <p className='text-center mt-2'>An error occured..</p>
+  );
 
   return (
     <div className='flex items-center justify-center'>
@@ -72,9 +79,12 @@ const Leaderboard = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {leaderboardData ? (
-                leaderboardData.length > 0 ? (
-                  leaderboardData.map((data, index) => (
+              {isLoading
+                ? getLeaderboardSkeleton()
+                : error
+                ? getErrorMessage()
+                : leaderboardData && leaderboardData.length > 0
+                ? leaderboardData.map((data, index) => (
                     <TableRow key={data.username}>
                       <TableCell className='text-left pl-5 font-bold max-w-[20px]'>
                         {index + 1}
@@ -88,12 +98,7 @@ const Leaderboard = () => {
                       </TableCell>
                     </TableRow>
                   ))
-                ) : (
-                  <p className='text-center mt-2'>No results found..</p>
-                )
-              ) : (
-                getLeaderboardSkeleton()
-              )}
+                : getNoResultsFound()}
             </TableBody>
           </Table>
         </ScrollArea>

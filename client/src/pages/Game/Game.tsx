@@ -4,6 +4,7 @@ import { Dot, DropdownMenu, GameOverDialog, Stopwatch } from './components';
 import axios from 'axios';
 import { buttonVariants, useToast } from '@/components/ui';
 import { GameContext, NavFooterContext } from '@/contexts';
+import { useQuery } from '@tanstack/react-query';
 
 export type Target = {
   name: string;
@@ -50,25 +51,30 @@ const Game = () => {
   const navigate = useNavigate();
   const imageRef = useRef<HTMLImageElement | null>(null);
 
+  const { data } = useQuery<TargetAPI[]>({
+    queryKey: ['targets', game?.name],
+    queryFn: async () => {
+      const resp = await axios.get(`/api/games/${game?.name}/targets`);
+      return resp.data;
+    },
+    enabled: !targets,
+  });
+
   useEffect(() => {
     if (!game) {
       navigate('/');
     }
   }, [game, navigate]);
 
-  const getTargetCoordinates = async () => {
-    try {
-      const targets = await axios.get(`/api/games/${game?.name}/targets`);
-      setTargets(targets.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
-    getTargetCoordinates();
     setStopwatchRunning(true);
   }, []);
+
+  useEffect(() => {
+    if (data) {
+      setTargets(data);
+    }
+  }, [data]);
 
   useEffect(() => {
     setNav(

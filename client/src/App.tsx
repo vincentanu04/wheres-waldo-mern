@@ -3,6 +3,9 @@ import { Game, Home, Layout, Leaderboard, Login, Signup } from './pages';
 import { Game as GameType } from './pages/Game/Game';
 import { ReactNode, useState } from 'react';
 import { GameContext, NavFooterContext } from './contexts';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 function App() {
   const [game, setGame] = useState<GameType | null>(null);
@@ -10,24 +13,26 @@ function App() {
   const [footer, setFooter] = useState<ReactNode | null>(null);
 
   return (
-    <NavFooterContext.Provider value={{ nav, setNav, footer, setFooter }}>
-      <GameContext.Provider value={{ game: game, setGame: setGame }}>
-        <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<Layout user={true} />}>
-              <Route index element={<Home />} />
-              <Route path='/game/:gameName' element={<Game />} />
-              <Route
-                path='/game/:gameName/leaderboard'
-                element={<Leaderboard />}
-              />
-              <Route path='/login' element={<Login />} />
-              <Route path='/signup' element={<Signup />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </GameContext.Provider>
-    </NavFooterContext.Provider>
+    <QueryClientProvider client={queryClient}>
+      <NavFooterContext.Provider value={{ nav, setNav, footer, setFooter }}>
+        <GameContext.Provider value={{ game: game, setGame: setGame }}>
+          <BrowserRouter>
+            <Routes>
+              <Route path='/' element={<Layout user={true} />}>
+                <Route index element={<Home />} />
+                <Route path='/game/:gameName' element={<Game />} />
+                <Route
+                  path='/game/:gameName/leaderboard'
+                  element={<Leaderboard />}
+                />
+                <Route path='/login' element={<Login />} />
+                <Route path='/signup' element={<Signup />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </GameContext.Provider>
+      </NavFooterContext.Provider>
+    </QueryClientProvider>
   );
 }
 
