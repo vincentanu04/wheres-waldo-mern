@@ -1,30 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface StopwatchProps {
   stopwatchRunning: boolean;
   setParentTime: (time: number) => void;
 }
+
 const Stopwatch = ({ stopwatchRunning, setParentTime }: StopwatchProps) => {
   const [time, setTime] = useState(0);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    let intervalId: NodeJS.Timeout;
     if (stopwatchRunning) {
-      intervalId = setInterval(() => {
+      intervalRef.current = setInterval(() => {
         setTime((prevTime) => {
           const newTime = prevTime + 1;
           setParentTime(newTime);
           return newTime;
         });
       }, 1000);
+    } else {
+      clearInterval(intervalRef.current as NodeJS.Timeout);
     }
-    return () => clearInterval(intervalId);
+
+    return () => {
+      clearInterval(intervalRef.current as NodeJS.Timeout);
+    };
   }, [stopwatchRunning, setParentTime]);
 
-  // Minutes calculation
   const minutes = Math.floor(time / 60);
-
-  // seconds calculation
   const seconds = time % 60;
 
   return (
