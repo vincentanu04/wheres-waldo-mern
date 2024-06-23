@@ -14,7 +14,7 @@ import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
 const formSchema = z.object({
@@ -29,6 +29,7 @@ const formSchema = z.object({
 const Login = () => {
   const [errorMsg, setErrorMsg] = useState('');
   const { dispatch } = useAuthContext();
+  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -64,6 +65,7 @@ const Login = () => {
       localStorage.setItem('user', JSON.stringify(user));
 
       dispatch({ type: 'LOGIN', payload: user });
+      navigate('/');
     },
   });
 
