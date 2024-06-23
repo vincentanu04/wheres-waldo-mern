@@ -8,8 +8,10 @@ import {
   FormMessage,
   Input,
 } from '@/components/ui';
+import { useAuthContext } from '@/hooks/useAuthContext';
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
+import { useMutation } from '@tanstack/react-query';
+import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -26,6 +28,7 @@ const formSchema = z.object({
 
 const Login = () => {
   const [errorMsg, setErrorMsg] = useState('');
+  const { dispatch } = useAuthContext();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -35,24 +38,40 @@ const Login = () => {
     },
   });
 
+  const { mutate: loginMutate, isPending } = useMutation({
+    mutationFn: (user: { username: string; password: string }) => {
+      return axios.post<{ token: string; username: string }>(
+        '/api/account/login',
+        user
+      );
+    },
+    onError: (error: AxiosError | Error) => {
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.error
+        ) {
+          setErrorMsg(error.response.data.error);
+        } else {
+          setErrorMsg('An unexpected error occurred');
+          console.log(error);
+        }
+      }
+    },
+    onSuccess: (data) => {
+      const user = data.data;
+      localStorage.setItem('user', JSON.stringify(user));
+
+      dispatch({ type: 'LOGIN', payload: user });
+    },
+  });
+
   const onSubmit = async ({
     username,
     password,
   }: z.infer<typeof formSchema>) => {
-    try {
-      const resp = await axios.post('/api/account/login', {
-        username,
-        password,
-      });
-      console.log(resp);
-    } catch (err) {
-      if (err.response && err.response.data && err.response.data.error) {
-        setErrorMsg(err.response.data.error);
-      } else {
-        setErrorMsg('An unexpected error occurred');
-        console.log(err);
-      }
-    }
+    loginMutate({ username, password });
   };
 
   return (
@@ -90,7 +109,12 @@ const Login = () => {
             )}
           />
           <p className='text-sm font-medium text-destructive'>{errorMsg}</p>
-          <Button variant='secondary' type='submit' className='w-full'>
+          <Button
+            variant='secondary'
+            type='submit'
+            className='w-full'
+            disabled={isPending}
+          >
             Submit
           </Button>
         </form>
