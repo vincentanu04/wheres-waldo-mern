@@ -1,15 +1,9 @@
-import { Separator, Toaster, buttonVariants } from '@/components/ui';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { Toaster, buttonVariants } from '@/components/ui';
 import { NavFooterContext } from '@/contexts';
 import { useAuthContext } from '@/hooks/useAuthContext';
-import { ChevronDown, User } from 'lucide-react';
 import { useContext } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
+import UserDropdownMenu from './components/UserDropdownMenu';
 
 interface LayoutProps {
   user: { username: string; token: string } | null;
@@ -45,26 +39,7 @@ const Layout = ({ user }: LayoutProps) => {
                   Play
                 </Link>
                 {user ? (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger
-                      className={`flex gap-3 ${buttonVariants({
-                        variant: 'secondary',
-                      })}`}
-                    >
-                      <div className='flex gap-2'>
-                        <User size={20} />
-                        {user.username}
-                      </div>
-                      <Separator orientation='vertical' />
-                      <ChevronDown />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className='w-[--radix-dropdown-menu-trigger-width] max-h-[--radix-dropdown-menu-content-available-height]'>
-                      <DropdownMenuItem>Profile</DropdownMenuItem>
-                      <DropdownMenuItem onClick={handleLogout}>
-                        Logout
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <UserDropdownMenu user={user} handleLogout={handleLogout} />
                 ) : (
                   <Link
                     to='/login'
