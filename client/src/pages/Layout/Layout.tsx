@@ -2,7 +2,7 @@ import { Toaster, buttonVariants } from '@/components/ui';
 import { NavFooterContext } from '@/contexts';
 import { useAuthContext } from '@/hooks/useAuthContext';
 import { useContext } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import UserDropdownMenu from './components/UserDropdownMenu';
 
 interface LayoutProps {
@@ -14,11 +14,13 @@ const Layout = ({ user }: LayoutProps) => {
   const { pathname } = useLocation();
   const playingGame = pathname.includes('/game/');
   const { dispatch } = useAuthContext();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('user');
 
     dispatch({ type: 'LOGOUT' });
+    navigate('/');
   };
 
   return (

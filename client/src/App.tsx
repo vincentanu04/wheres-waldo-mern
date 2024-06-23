@@ -5,6 +5,7 @@ import { ReactNode, useState } from 'react';
 import { GameContext, NavFooterContext } from './contexts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useAuthContext } from './hooks/useAuthContext';
+import Profile from './pages/Profile/Profile';
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,10 @@ function App() {
                   path='/game/:gameName/leaderboard'
                   element={<Leaderboard />}
                 />
+                <Route
+                  path='/profile'
+                  element={<Profile user={user} />}
+                ></Route>
                 <Route path='/login' element={<Login />} />
                 <Route path='/signup' element={<Signup />} />
               </Route>
