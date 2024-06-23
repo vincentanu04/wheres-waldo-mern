@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api",
+      "destination": "https://wheres-waldo-mern-api.fly.dev/api"
+    }
+  ]
+}
