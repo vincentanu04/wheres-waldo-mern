@@ -1,16 +1,24 @@
-import { Toaster, buttonVariants } from '@/components/ui';
+import { Button, Toaster, buttonVariants } from '@/components/ui';
 import { NavFooterContext } from '@/contexts';
+import { useAuthContext } from '@/hooks/useAuthContext';
 import { useContext } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 
 interface LayoutProps {
-  user: boolean;
+  user: { username: string; token: string } | null;
 }
 
 const Layout = ({ user }: LayoutProps) => {
   const { nav, footer } = useContext(NavFooterContext);
   const { pathname } = useLocation();
   const playingGame = pathname.includes('/game/');
+  const { dispatch } = useAuthContext();
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+
+    dispatch({ type: 'LOGOUT' });
+  };
 
   return (
     <div className='flex flex-col min-h-screen bg-primary'>
@@ -30,6 +38,10 @@ const Layout = ({ user }: LayoutProps) => {
                   Play
                 </Link>
                 {user ? (
+                  <Button variant={'secondary'} onClick={handleLogout}>
+                    {user.username} Logout
+                  </Button> // TODO: CREATE PROFILE DROPDOWN
+                ) : (
                   <Link
                     to='/login'
                     className={`${buttonVariants({
@@ -38,8 +50,6 @@ const Layout = ({ user }: LayoutProps) => {
                   >
                     Login
                   </Link>
-                ) : (
-                  <></>
                 )}
               </div>
             </>

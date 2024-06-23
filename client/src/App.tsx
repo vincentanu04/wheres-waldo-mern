@@ -4,6 +4,7 @@ import { Game as GameType } from './pages/Game/Game';
 import { ReactNode, useState } from 'react';
 import { GameContext, NavFooterContext } from './contexts';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useAuthContext } from './hooks/useAuthContext';
 
 const queryClient = new QueryClient();
 
@@ -11,6 +12,8 @@ function App() {
   const [game, setGame] = useState<GameType | null>(null);
   const [nav, setNav] = useState<ReactNode | null>(null);
   const [footer, setFooter] = useState<ReactNode | null>(null);
+  const { state } = useAuthContext();
+  const { user } = state;
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -18,7 +21,7 @@ function App() {
         <GameContext.Provider value={{ game: game, setGame: setGame }}>
           <BrowserRouter>
             <Routes>
-              <Route path='/' element={<Layout user={true} />}>
+              <Route path='/' element={<Layout user={user} />}>
                 <Route index element={<Home />} />
                 <Route path='/game/:gameName' element={<Game />} />
                 <Route
