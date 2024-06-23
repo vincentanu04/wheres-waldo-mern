@@ -9,6 +9,7 @@ import {
   TableRow,
 } from '@/components/ui';
 import { NavFooterContext } from '@/contexts';
+import { useAuthContext } from '@/hooks/useAuthContext';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useContext, useEffect } from 'react';
@@ -22,6 +23,8 @@ type leaderboardDataAPI = {
 const Leaderboard = () => {
   const { gameName } = useParams();
   const { setNav, setFooter } = useContext(NavFooterContext);
+  const { state } = useAuthContext();
+  const { user } = state;
 
   const {
     isLoading,
@@ -85,7 +88,12 @@ const Leaderboard = () => {
                 ? getErrorMessage()
                 : leaderboardData && leaderboardData.length > 0
                 ? leaderboardData.map((data, index) => (
-                    <TableRow key={data.username}>
+                    <TableRow
+                      key={data.username}
+                      className={
+                        user?.username === data.username ? 'bg-slate-800' : ''
+                      }
+                    >
                       <TableCell className='text-left pl-5 font-bold max-w-[20px]'>
                         {index + 1}
                       </TableCell>

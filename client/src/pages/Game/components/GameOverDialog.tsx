@@ -5,28 +5,13 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Input,
 } from '@/components/ui';
-import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { GameContext } from '@/contexts';
-import axios from 'axios';
-
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
-  }),
-});
+import axios, { AxiosError } from 'axios';
+import { useAuthContext } from '@/hooks/useAuthContext';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 interface GameOverDialogProps {
   time: number;
@@ -34,27 +19,60 @@ interface GameOverDialogProps {
 
 const GameOverDialog = ({ time }: GameOverDialogProps) => {
   const navigate = useNavigate();
+  const [updated, setUpdated] = useState<boolean>();
   const { game } = useContext(GameContext);
-  const [formError, setFormError] = useState();
+  const [error, setError] = useState<string>();
+  const { state } = useAuthContext();
+  const { user } = state;
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: '',
+  const { mutate: postLeaderboard, isPending } = useMutation({
+    mutationFn: (data: { username: string; token: string }) => {
+      return axios.post(
+        `/api/games/${game?.name}/leaderboard`,
+        {
+          username: data.username,
+          time: time,
+        },
+        { headers: { Authorization: `Bearer ${data.token}` } }
+      );
+    },
+    onError: (error: AxiosError | Error) => {
+      if (axios.isAxiosError(error)) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.error
+        ) {
+          setError(error.response.data.error);
+        } else {
+          setError('An unexpected error occurred');
+          console.log(error);
+        }
+      }
+    },
+    onSuccess: (data) => {
+      setUpdated(data.data.updated);
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      await axios.post(`/api/games/${game?.name}/leaderboard`, {
-        username: values.username,
-        time: time,
-      });
-      navigate(`/game/${game?.name}/leaderboard`);
-    } catch (err) {
-      setFormError(err.response.data.message);
+  const { data: previousTime, isLoading: isPreviousTimeLoading } = useQuery({
+    queryKey: ['score', game?.name, user?.username],
+    queryFn: async () => {
+      const resp = await axios.get(
+        `/api/games/${game?.name}/leaderboard/${user?.username}`,
+        { headers: { Authorization: `Bearer ${user?.token}` } }
+      );
+      return resp.data;
+    },
+    enabled: !!user,
+  });
+
+  useEffect(() => {
+    if (user) {
+      const { username, token } = user;
+      postLeaderboard({ username, token });
     }
-  };
+  }, []);
 
   return (
     <Dialog defaultOpen onOpenChange={() => navigate('/')}>
@@ -62,33 +80,54 @@ const GameOverDialog = ({ time }: GameOverDialogProps) => {
         <DialogHeader>
           <DialogTitle className='mb-2 text-2xl'>Congratulations!</DialogTitle>
           <DialogDescription>
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className='space-y-6'
-              >
-                <FormField
-                  control={form.control}
-                  name='username'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className='text-white'>Username</FormLabel>
-                      <FormControl>
-                        <Input placeholder='vincentanu04...' {...field} />
-                      </FormControl>
-                      {formError && <p className='text-red-600'>{formError}</p>}
-                      <FormDescription>
-                        Enter your username to be added to the leaderboard.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button variant='secondary' type='submit'>
-                  Submit
+            <p className='text-primary-foreground mb-6'>
+              You completed it in {time} seconds! Your previous score was{' '}
+              {isPreviousTimeLoading
+                ? '...'
+                : previousTime
+                ? previousTime
+                : '...'}{' '}
+              seconds.
+            </p>
+            {user ? (
+              <div className='flex flex-col gap-4'>
+                {isPending ? (
+                  <p>Loading...</p>
+                ) : error ? (
+                  <p className='text-red-600'>{error}</p>
+                ) : (
+                  <p>
+                    {updated
+                      ? 'Your high score has been updated accordingly.'
+                      : 'Your high score remains unchanged.'}
+                  </p>
+                )}
+                <Button
+                  onClick={() => {
+                    navigate(`/game/${game?.name}/leaderboard`);
+                  }}
+                  variant={'secondary'}
+                  disabled={isPending}
+                >
+                  Go to Leaderboard
                 </Button>
-              </form>
-            </Form>
+              </div>
+            ) : (
+              <div className='flex flex-col gap-4'>
+                <p>
+                  Create an account to have your score tracked in the
+                  leaderboard.
+                </p>
+                <Button
+                  onClick={() => {
+                    navigate(`/game/${game?.name}/leaderboard`);
+                  }}
+                  variant={'secondary'}
+                >
+                  Go to Leaderboard
+                </Button>
+              </div>
+            )}
           </DialogDescription>
           <Dialog></Dialog>
         </DialogHeader>

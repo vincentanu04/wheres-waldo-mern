@@ -51,8 +51,6 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  console.log(state.user);
-
   return (
     <AuthContext.Provider value={{ state, dispatch }}>
       {children}

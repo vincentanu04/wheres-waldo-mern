@@ -43,12 +43,18 @@ const leaderboard_post = async (
     const { gameName } = req.params;
     const { username, time } = req.body;
     const leaderboard = await Leaderboard.find({ gameName: gameName });
-    const usernameExists = leaderboard[0]?.data.some(
+    const usernameExistsInLeaderboard = leaderboard[0]?.data.some(
       (entry) => entry.username === username
     );
 
-    if (usernameExists) {
-      throw new Error('Username already exists.');
+    const authorizedUser = false;
+
+    if (usernameExistsInLeaderboard) {
+      if (!authorizedUser) {
+        throw new Error(
+          'Username already exists. Log in to an account to update your highest score!'
+        );
+      }
     } else {
       const response = await Leaderboard.findOneAndUpdate(
         { gameName: gameName },
