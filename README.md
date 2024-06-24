@@ -1,8 +1,10 @@
 # wheres-waldo-mern
 
-IMAGE PLACEHOLDER
+Live site: https://wheres-waldo-mern.vercel.app/
 
-Live site:
+![image](https://github.com/vincentanu04/wheres-waldo-mern/assets/121442433/07ef580d-5880-4a08-8a53-4559e7bac985)
+![image](https://github.com/vincentanu04/wheres-waldo-mern/assets/121442433/9ada09a2-fe55-4c72-ae13-29a8b40d0b32)
+![image](https://github.com/vincentanu04/wheres-waldo-mern/assets/121442433/40b7acf7-ca4d-4668-a027-40577b16979a)
 
 Learning goals:
 
