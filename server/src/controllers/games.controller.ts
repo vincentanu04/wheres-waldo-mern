@@ -43,27 +43,50 @@ const leaderboard_post = async (
     const { gameName } = req.params;
     const { username, time } = req.body;
     const leaderboard = await Leaderboard.find({ gameName: gameName });
-    const usernameExistsInLeaderboard = leaderboard[0]?.data.some(
+    const existingEntryInLeaderboard = leaderboard[0]?.data.find(
       (entry) => entry.username === username
     );
 
-    const authorizedUser = false;
-
-    if (usernameExistsInLeaderboard) {
-      if (!authorizedUser) {
-        throw new Error(
-          'Username already exists. Log in to an account to update your highest score!'
+    if (existingEntryInLeaderboard) {
+      if (existingEntryInLeaderboard.time > time) {
+        await Leaderboard.findOneAndUpdate(
+          {
+            gameName: gameName,
+            'data.username': username,
+          },
+          { $set: { 'data.$.time': time } },
+          { new: true }
         );
+        return res.json({ updated: true });
       }
+      res.json({ updated: false });
     } else {
-      const response = await Leaderboard.findOneAndUpdate(
+      await Leaderboard.findOneAndUpdate(
         { gameName: gameName },
         { $push: { data: { username, time } } },
         { new: true }
       );
 
-      res.json(response);
+      res.json({ updated: true });
     }
+  } catch (err) {
+    next(err);
+  }
+};
+
+const leaderboard_get_username = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { gameName, username } = req.params;
+    const [{ data }] = await Leaderboard.find({ gameName: gameName })
+      .select('data')
+      .exec();
+
+    const userEntry = data.find((entry) => entry.username === username);
+    res.json(userEntry?.time);
   } catch (err) {
     next(err);
   }
@@ -73,4 +96,5 @@ export default {
   targets,
   leaderboard_get,
   leaderboard_post,
+  leaderboard_get_username,
 };

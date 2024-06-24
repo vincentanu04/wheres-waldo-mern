@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 const app: Express = express();
 dotenv.config();
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 mongoose.set('strictQuery', false);
 
@@ -19,8 +19,8 @@ async function main() {
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/games', GameRouter);
 app.use('/api/account', AccountRouter);
+app.use('/api/games', GameRouter);
 
 // Error handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
